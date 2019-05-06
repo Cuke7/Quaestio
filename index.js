@@ -118,7 +118,7 @@ function handleMessage(sender_psid, received_message) {
 				]
 			});
 		}
-		callSendAPI(2287676377966343, response);
+		callSendAPI(sender_psid, response);
 	}
 }
 
