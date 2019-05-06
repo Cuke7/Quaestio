@@ -158,7 +158,6 @@ app.get('/cec/', function (req, res) {
 	let paragraph = decode(req.query.tagId);
 	let str = "";
 	for (let i = 0; i < paragraph.length; i++){
-		paragraph[i].replaceAll("migrants","<mark>migrants</mark>");
 		str = str + '<p style="font-size: 40px; margin-left: 6%; margin-right: 6%;">' +
 			paragraph[i] +
 			'</p>'
