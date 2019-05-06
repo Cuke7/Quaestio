@@ -102,7 +102,7 @@ function handleMessage(sender_psid, received_message) {
 				text: title,
 				buttons: [{
 						type: 'web_url',
-						url: 'https://18985813.ngrok.io/cec?tagId='+path,
+						url: 'https://quaestio.herokuapp.com/cec?tagId='+path,
 						title: 'CEC',
 						webview_height_ratio: 'full'
 					}
