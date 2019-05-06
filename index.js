@@ -118,23 +118,6 @@ function handleMessage(sender_psid, received_message) {
 				]
 			});
 		}
-
-		let response = {
-			attachment: {
-				type: 'template',
-				payload: {
-					template_type: 'button',
-					text: title,
-					buttons: [{
-							type: 'web_url',
-							url: 'https://quaestio.herokuapp.com/cec?tagId=' + path,
-							title: 'CEC',
-							webview_height_ratio: 'full'
-						}
-					]
-				}
-			}
-		};
 		callSendAPI(2287676377966343, response);
 	}
 }
