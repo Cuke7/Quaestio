@@ -88,29 +88,31 @@ function handleQuickReply(sender_psid, received_message) {}
 
 
 function handleMessage(sender_psid, received_message) {
-	let message = received_message.text;
-	let input = message.split(" ");
-	console.log("Searching...");
-	let path = look_text(input)[0].path;
-	console.log(path);
-	let title = decode(path)[0];
-	let response = {
-		attachment: {
-			type: 'template',
-			payload: {
-				template_type: 'button',
-				text: title,
-				butons: [{
-						type: 'web_url',
-						url: 'https://quaestio.herokuapp.com/cec?tagId='+path,
-						title: 'CEC',
-						webview_height_ratio: 'full'
-					}
-				]
+	if (!received_message.is_echo) {
+		let message = received_message.text;
+		let input = message.split(" ");
+		console.log("Searching...");
+		let path = look_text(input)[0].path;
+		console.log(path);
+		let title = decode(path)[0];
+		let response = {
+			attachment: {
+				type: 'template',
+				payload: {
+					template_type: 'button',
+					text: title,
+					buttons: [{
+							type: 'web_url',
+							url: 'https://quaestio.herokuapp.com/cec?tagId=' + path,
+							title: 'CEC',
+							webview_height_ratio: 'full'
+						}
+					]
+				}
 			}
-		}
-	};
-	callSendAPI(2287676377966343, response);
+		};
+		callSendAPI(2287676377966343, response);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -147,7 +149,7 @@ function callSendAPI(sender_psid, response) {
 
 app.get('/cec/', function (req, res) {
 	let paragraph = decode(req.query.tagId);
-	let str="";
+	let str = "";
 	for (let i = 0; i < paragraph.length; i++) {
 		str = str + '<p style="font-size: 40px; margin-left: 6%; margin-right: 6%;">' +
 			paragraph[i] +
@@ -162,7 +164,6 @@ app.get('/cec/', function (req, res) {
 /* app.get('/cec/', function(req, res) {
 res.send("tagId is set to " + req.query.tagId);
 }); */
-
 
 // Spin up the server
 app.listen(app.get('port'), function () {
