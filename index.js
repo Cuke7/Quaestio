@@ -91,10 +91,34 @@ function handleMessage(sender_psid, received_message) {
 	if (!received_message.is_echo) {
 		let message = received_message.text;
 		let input = message.split(" ");
-		console.log("Searching...");
-		let path = look_text(input)[0].path;
-		console.log(path);
-		let title = decode(path)[0];
+
+		let response = {
+			attachment: {
+				type: 'template',
+				payload: {
+					template_type: 'generic',
+					elements: []
+				}
+			}
+		};
+
+		for (let i = 0; i < 4 i++) {
+			let result = look_text(input);
+			let path = result[i].path;
+			let title = decode(path)[0];
+			response.attachment.payload.elements.push({
+				"title": title,
+				"buttons": [{
+						"type": "web_url",
+						"url": 'https://quaestio.herokuapp.com/cec?tagId=' + path,
+						"title": "infoTbm",
+						"messenger_extensions": false,
+						"webview_height_ratio": "full"
+					}
+				]
+			});
+		}
+
 		let response = {
 			attachment: {
 				type: 'template',
