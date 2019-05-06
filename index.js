@@ -100,7 +100,7 @@ function handleMessage(sender_psid, received_message) {
 			payload: {
 				template_type: 'button',
 				text: title,
-				buttons: [{
+				butons: [{
 						type: 'web_url',
 						url: 'https://quaestio.herokuapp.com/cec?tagId='+path,
 						title: 'CEC',
