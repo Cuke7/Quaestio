@@ -102,7 +102,7 @@ function handleMessage(sender_psid, received_message) {
 			}
 		};
 
-		for (let i = 0; i < 4 i++) {
+		for (let i = 0; i < 4; i++) {
 			let result = look_text(input);
 			let path = result[i].path;
 			let title = decode(path)[0];
@@ -111,7 +111,7 @@ function handleMessage(sender_psid, received_message) {
 				"buttons": [{
 						"type": "web_url",
 						"url": 'https://quaestio.herokuapp.com/cec?tagId=' + path,
-						"title": "infoTbm",
+						"title": "CEC",
 						"messenger_extensions": false,
 						"webview_height_ratio": "full"
 					}
