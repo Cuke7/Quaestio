@@ -109,7 +109,7 @@ function handleMessage(sender_psid, received_message) {
 			let subtitle = "";
 			for (let j = 0; j < input.length; j++) {
 				console.log(results[1][j][i]);
-				subtitle = subtitle "\n" + "#" + input[j] + " = " + results[1][j][i].occ;
+				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][j][i].occ +" %";
 			}
 			response.attachment.payload.elements.push({
 				"title": title,
