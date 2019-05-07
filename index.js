@@ -219,7 +219,7 @@ function look_text(data) {
 		let occ_tab=[];
 		for (let j = 0; j < text_results.length; j++) {
 			tot =tot + parseFloat(text_results[j][i].occ);
-			occ_tab.push(parseFloat(text_results[j][i].occ)*100*data.length);
+			occ_tab.push(parseFloat((text_results[j][i].occ)*100*data.length).toFixed(2));
 		}
 		final_results.push({
 			'occ_score': tot.toFixed(2),
@@ -260,7 +260,7 @@ function format(res, input) {
 	}
 	//console.log(max);
 	for (let i = 0; i < res.length; i++) {
-		res[i].occ = ((res[i].occ / max) / input.length).toFixed(2);
+		res[i].occ = ((res[i].occ / max) / input.length);
 	}
 
 }
