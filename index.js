@@ -223,11 +223,11 @@ function look_text(data) {
 	}
 
 	final_results.sort(function (a, b) {
-		return parseFloat(b.occ) - parseFloat(a.occ);
+		return parseFloat(b.occ_score) - parseFloat(a.occ_score);
 	});
 	for (let i = 0; i < data.length; i++) {
 		text_results[i].sort(function (a, b) {
-			return parseFloat(b.occ_score) - parseFloat(a.occ_score);
+			return parseFloat(b.occ) - parseFloat(a.occ);
 		});
 	}
 
