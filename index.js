@@ -7,9 +7,6 @@ const request = require('request');
 
 const token = 'EAAEGe5d5OcsBANx1kMdOaVLdFubOI9TSXc1puqDpCyYMaPvQrj4k61wuRBZBd7lW0iUnBQApMIFItpnG8Sc625yE6PxBm4MbLHV5Gtv13ucLnsFtq8xpxiugDymCZBsvn4BGe2YNkHObKVXEjawggI5wAWR4WdZCN8XItpNuQZDZD'
 
-var SpellChecker = require('simple-spellchecker');
-var dictionary = SpellChecker.getDictionarySync("fr-FR"); 
-
 	let inport = require("./cec.js");
 let cec = inport.cec;
 app.set('port', (process.env.PORT || 5000));
