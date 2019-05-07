@@ -110,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
 			for (let j = 0; j < input.length; j++) {
 				console.log(results[1][j][i]);
 				console.log(results[0][i]);
-			subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[0][i].occ_tab[j]+"%";
+			subtitle = subtitle + "\n" + "#" + input[j] + " : " + results[0][i].occ_tab[j]+"%";
 			}
 			response.attachment.payload.elements.push({
 				"title": title,
@@ -219,7 +219,7 @@ function look_text(data) {
 		let occ_tab=[];
 		for (let j = 0; j < text_results.length; j++) {
 			tot =tot + parseFloat(text_results[j][i].occ);
-			occ_tab.push(parseFloat(text_results[j][i].occ)*200);
+			occ_tab.push(parseFloat(text_results[j][i].occ)*100*data.length);
 		}
 		final_results.push({
 			'occ_score': tot.toFixed(2),
