@@ -108,7 +108,7 @@ function handleMessage(sender_psid, received_message) {
 			let title = decode(path)[0];
 			let subtitle = "";
 			for (let j = 0; j < input.length; j++) {
-				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][i].occ;
+				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][j][i].occ;
 			}
 			response.attachment.payload.elements.push({
 				"title": title,
