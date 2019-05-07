@@ -103,11 +103,16 @@ function handleMessage(sender_psid, received_message) {
 		};
 
 		for (let i = 0; i < 4; i++) {
-			let result = look_text(input);
-			let path = result[i].path;
+			let results = look_text(input);
+			let path = results[0][i].path;
 			let title = decode(path)[0];
+			let subtitle = "";
+			for (let j = 0; j < input.length; j++) {
+				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][i].occ;
+			}
 			response.attachment.payload.elements.push({
 				"title": title,
+				"subtitle": subtitle,
 				"buttons": [{
 						"type": "web_url",
 						"url": 'https://quaestio.herokuapp.com/cec?tagId=' + path,
@@ -157,7 +162,7 @@ function callSendAPI(sender_psid, response) {
 app.get('/cec/', function (req, res) {
 	let paragraph = decode(req.query.tagId);
 	let str = "";
-	for (let i = 0; i < paragraph.length; i++){
+	for (let i = 0; i < paragraph.length; i++) {
 		str = str + '<p style="font-size: 40px; margin-left: 6%; margin-right: 6%;">' +
 			paragraph[i] +
 			'</p>'
@@ -168,10 +173,6 @@ app.get('/cec/', function (req, res) {
 		'</p>');
 });
 
-/* app.get('/cec/', function(req, res) {
-res.send("tagId is set to " + req.query.tagId);
-}); */
-
 // Spin up the server
 app.listen(app.get('port'), function () {
 	console.log('running on port', app.get('port'))
@@ -181,82 +182,6 @@ String.prototype.replaceAll = function (search, replacement) {
 	var target = this;
 	return target.replace(new RegExp(search, 'g'), replacement);
 };
-
-function look_titles(data) {
-	let title_results = [];
-	let final_results = [];
-	for (let index = 0; index < data.length; index++) {
-		title_results.push([]);
-		for (let p = 0; p < cec.length; p++) {
-			let occ = findWord(data[index], cec[p][0]);
-			title_results[index].push({
-				'title': cec[p][0],
-				'occ': occ,
-				'path': p + '-' + "0"
-			});
-			for (let s = 2; s < cec[p].length; s++) {
-				let occ = findWord(data[index], cec[p][s][0]);
-				title_results[index].push({
-					'title': cec[p][s][0],
-					'occ': occ,
-					'path': p + '-' + s + '-' + "0"
-				});
-				for (let c = 2; c < cec[p][s].length; c++) {
-					let occ = findWord(data[index], cec[p][s][c][0]);
-					title_results[index].push({
-						'title': cec[p][s][c][0],
-						'occ': occ,
-						'path': p + '-' + s + '-' + c + '-' + c + '-' + "0"
-					});
-					for (let a = 2; a < cec[p][s][c].length; a++) {
-						let occ = findWord(data[index], cec[p][s][c][a][0]);
-						title_results[index].push({
-							'title': cec[p][s][c][a][0],
-							'occ': occ,
-							'path': p + '-' + s + '-' + c + '-' + a + '-' + "0"
-						});
-						for (let pa = 2; pa < cec[p][s][c][a].length; pa++) {
-							let occ = findWord(data[index], cec[p][s][c][a][pa][0]);
-							title_results[index].push({
-								'title': cec[p][s][c][a][pa][0],
-								'occ': occ,
-								'path': p + '-' + s + '-' + c + '-' + a + '-' + pa + '-' + "0"
-							});
-							for (let i = 2; i < cec[p][s][c][a][pa].length; i++) {
-								let occ = findWord(data[index], cec[p][s][c][a][pa][i][0]);
-								title_results[index].push({
-									'title': cec[p][s][c][a][pa][i][0],
-									'occ': occ,
-									'path': p + '-' + s + '-' + c + '-' + a + '-' + pa + '-' + i + '-' + "0"
-								});
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	for (let i = 0; i < title_results.length; i++) {
-		format(title_results[i]);
-	}
-
-	for (let i = 0; i < title_results[0].length; i++) {
-		let tot = 0;
-		for (let j = 0; j < title_results.length; j++) {
-			tot = tot + parseFloat(title_results[j][i].occ);
-		}
-		final_results.push({
-			'occ_score': tot.toFixed(2),
-			'path': title_results[0][i].path
-		})
-	}
-
-	final_results.sort(function (a, b) {
-		return parseFloat(b.occ_score) - parseFloat(a.occ_score);
-	});
-	return final_results;
-}
 
 function look_text(data) {
 	let text_results = [];
@@ -291,7 +216,7 @@ function look_text(data) {
 			tot = tot + parseFloat(text_results[j][i].occ);
 		}
 		final_results.push({
-			'occ_score': tot, //.toFixed(2),
+			'occ_score': tot.toFixed(2),
 			'path': text_results[0][i].path
 		})
 	}
@@ -300,7 +225,7 @@ function look_text(data) {
 		return parseFloat(b.occ_score) - parseFloat(a.occ_score);
 	});
 
-	return final_results;
+	return [final_results, text_results];
 }
 
 function search(word, item) {
@@ -323,7 +248,7 @@ function format(res, input) {
 	}
 	//console.log(max);
 	for (let i = 0; i < res.length; i++) {
-		res[i].occ = ((res[i].occ / max) / input.length) //.toFixed(2);
+		res[i].occ = ((res[i].occ / max) / input.length).toFixed(2);
 	}
 
 }
@@ -341,3 +266,82 @@ function decode(path2) {
 
 	return cec[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]];
 }
+
+//--------------
+
+
+/*function look_titles(data) {
+let title_results = [];
+let final_results = [];
+for (let index = 0; index < data.length; index++) {
+title_results.push([]);
+for (let p = 0; p < cec.length; p++) {
+let occ = findWord(data[index], cec[p][0]);
+title_results[index].push({
+'title': cec[p][0],
+'occ': occ,
+'path': p + '-' + "0"
+});
+for (let s = 2; s < cec[p].length; s++) {
+let occ = findWord(data[index], cec[p][s][0]);
+title_results[index].push({
+'title': cec[p][s][0],
+'occ': occ,
+'path': p + '-' + s + '-' + "0"
+});
+for (let c = 2; c < cec[p][s].length; c++) {
+let occ = findWord(data[index], cec[p][s][c][0]);
+title_results[index].push({
+'title': cec[p][s][c][0],
+'occ': occ,
+'path': p + '-' + s + '-' + c + '-' + c + '-' + "0"
+});
+for (let a = 2; a < cec[p][s][c].length; a++) {
+let occ = findWord(data[index], cec[p][s][c][a][0]);
+title_results[index].push({
+'title': cec[p][s][c][a][0],
+'occ': occ,
+'path': p + '-' + s + '-' + c + '-' + a + '-' + "0"
+});
+for (let pa = 2; pa < cec[p][s][c][a].length; pa++) {
+let occ = findWord(data[index], cec[p][s][c][a][pa][0]);
+title_results[index].push({
+'title': cec[p][s][c][a][pa][0],
+'occ': occ,
+'path': p + '-' + s + '-' + c + '-' + a + '-' + pa + '-' + "0"
+});
+for (let i = 2; i < cec[p][s][c][a][pa].length; i++) {
+let occ = findWord(data[index], cec[p][s][c][a][pa][i][0]);
+title_results[index].push({
+'title': cec[p][s][c][a][pa][i][0],
+'occ': occ,
+'path': p + '-' + s + '-' + c + '-' + a + '-' + pa + '-' + i + '-' + "0"
+});
+}
+}
+}
+}
+}
+}
+}
+
+for (let i = 0; i < title_results.length; i++) {
+format(title_results[i]);
+}
+
+for (let i = 0; i < title_results[0].length; i++) {
+let tot = 0;
+for (let j = 0; j < title_results.length; j++) {
+tot = tot + parseFloat(title_results[j][i].occ);
+}
+final_results.push({
+'occ_score': tot.toFixed(2),
+'path': title_results[0][i].path
+})
+}
+
+final_results.sort(function (a, b) {
+return parseFloat(b.occ_score) - parseFloat(a.occ_score);
+});
+return final_results;
+}*/
