@@ -102,7 +102,7 @@ function handleMessage(sender_psid, received_message) {
 			}
 		};
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 5; i++) {
 			let results = look_text(input);
 			let path = results[0][i].path;
 			let title = decode(path)[0];
