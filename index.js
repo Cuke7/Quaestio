@@ -109,7 +109,7 @@ function handleMessage(sender_psid, received_message) {
 			let subtitle = "";
 			for (let j = 0; j < input.length; j++) {
 				console.log(results[1][j][i]);
-				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][j][i].occ + " %";
+				subtitle = subtitle + "\n" + "#" + input[j] + " = " + results[1][j][i].occ;
 			}
 			response.attachment.payload.elements.push({
 				"title": title,
@@ -208,7 +208,7 @@ function look_text(data) {
 		}
 	}
 	for (let k = 0; k < text_results.length; k++) {
-		format(text_results[k], data);
+		//format(text_results[k], data);
 	}
 
 	for (let i = 0; i < text_results[0].length; i++) {
