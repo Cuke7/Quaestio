@@ -109,7 +109,7 @@ function handleMessage(sender_psid, received_message) {
 			let subtitle = "";
 			for (let j = 0; j < input.length; j++) {
 				console.log(results[1][j][i]);
-				subtitle = subtitle + "#" + input[j] + " = " + results[1][j][i].occ + "\n";
+				subtitle = subtitle "\n" + "#" + input[j] + " = " + results[1][j][i].occ;
 			}
 			response.attachment.payload.elements.push({
 				"title": title,
@@ -223,7 +223,7 @@ function look_text(data) {
 	}
 
 	final_results.sort(function (a, b) {
-		return parseFloat(b.occ_score) - parseFloat(a.occ_score);
+		return parseFloat(b.occ) - parseFloat(a.occ);
 	});
 	
 	text_results.sort(function (a, b) {
