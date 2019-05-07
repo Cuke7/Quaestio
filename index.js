@@ -219,7 +219,7 @@ function look_text(data) {
 		let occ_tab=[];
 		for (let j = 0; j < text_results.length; j++) {
 			tot =tot + parseFloat(text_results[j][i].occ);
-			occ_tab.push(parseFloat((text_results[j][i].occ)*100*data.length).toFixed(2));
+			occ_tab.push(parseFloat((text_results[j][i].occ)*100*data.length).toFixed(0));
 		}
 		final_results.push({
 			'occ_score': tot.toFixed(2),
